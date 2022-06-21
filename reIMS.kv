@@ -1,0 +1,30 @@
+#:kivy 2.0.0
+WindowManager:
+	MainScreen:
+	InventoryScreen:
+
+<MainScreen>:
+	name: 'main'
+	BoxLayout:
+		Button:
+			font_size: "100sp"
+			text: "Check-Out"
+			on_release: root.check_out_button()
+		Button:
+			font_size: "100sp"
+			text: "Check-In"
+			on_release: root.check_in_button()
+
+<InventoryScreen>:
+	name: 'inv'
+	BoxLayout:
+		Button:
+			font_size: "100sp"
+			text: "Item"
+		Button:
+			font_size: "100sp"
+			text: "Item2"
+		Button:
+			font_size: "100sp"
+			text: "Go Back"
+			on_release: app.root.current = 'main'
