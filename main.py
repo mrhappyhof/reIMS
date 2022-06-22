@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
+from src.util import confirmation_popup
 
 Config.set('graphics', 'window_state', 'maximized')
 
@@ -20,6 +21,23 @@ class LoginScreen(Screen):
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
+
+	def logout(self):
+		def yes(popup, _):
+			popup.dismiss()
+			self.manager.current = 'login'
+		confirmation_popup('DO YOU WISH TO LOG OUT? (SCANNED ITEMS WILL BE DISCARDED)', yes)
+
+	def back(self):
+		def yes(popup, _):
+			popup.dismiss()
+			self.manager.current = 'main'
+		confirmation_popup('DO YOU WISH TO GO BACK? (SCANNED ITEMS WILL BE DISCARDED)', yes)
+
+	def confirm(self):
+		def yes(popup, _):
+			popup.dismiss()
+		confirmation_popup('DO YOU WISH TO CONFIRM THE TRANSACTION? (SCANNED ITEMS WILL BE PROCESSED)', yes)
 
 class WindowManager(ScreenManager):
 	pass

@@ -20,7 +20,7 @@ WindowManager:
 			anchor_y: 'top'
 
 			Label:
-				text: 'PLEASE LOGIN WITH YOUR KEYCARD'
+				text: 'PLEASE LOG IN WITH YOUR KEYCARD'
 				font_size: 0.1 * root.height
 				height: 150
 				size_hint: None, None
@@ -90,7 +90,7 @@ WindowManager:
 				background_color: '#FF0000'
 				background_normal: ''
 				background_pressed: ''
-				on_release: root.manager.current = 'login'	
+				on_release: root.logout()	
 			Button:
 				font_size: 0.05 * root.height
 				text: 'BACK'
@@ -98,7 +98,7 @@ WindowManager:
 				background_color: '#FFFF00'
 				background_normal: ''
 				background_pressed: ''
-				on_release: root.manager.current = 'main' 
+				on_release: root.back() 
 			Button:
 				font_size: 0.05 * root.height
 				text: 'CONFIRM'
@@ -106,3 +106,4 @@ WindowManager:
 				background_color: '#00FF00'
 				background_normal: ''
 				background_pressed: ''
+				on_release: root.confirm()
