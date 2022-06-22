@@ -1,7 +1,29 @@
 #:kivy 2.0.0
 WindowManager:
+	LoginScreen:
 	MainScreen:
-	InventoryScreen:
+	PurchaseScreen:
+
+<LoginScreen>:
+	name: 'login'
+	FloatLayout:
+		AnchorLayout:
+			anchor_x: 'center'
+			anchor_y: 'bottom'
+
+			Image:
+				source: 'res/img/keycard.png'
+				size_hint: .8, .8
+
+		AnchorLayout:
+			anchor_x: 'center'
+			anchor_y: 'top'
+
+			Label:
+				text: 'Please login with your keycard.'
+				font_size: '100dp'
+				height: 150
+				size_hint: None, None
 
 <MainScreen>:
 	name: 'main'
@@ -17,14 +39,23 @@ WindowManager:
 
 <InventoryScreen>:
 	name: 'inv'
-	BoxLayout:
+	GridLayout:
+		cols: 2
 		Button:
-			font_size: "100sp"
-			text: "Item"
+			font_size: "50sp"
+			text: "RJ-45"
 		Button:
-			font_size: "100sp"
-			text: "Item2"
+			font_size: "50sp"
+			text: "LC-LC Single"
 		Button:
-			font_size: "100sp"
+			font_size: "50sp"
+			text: "Power Cord"
+		Button:
+			font_size: "50sp"
+			text: "LC-LC Multi"
+		Button:
+			disabled: 'true'
+		Button:
+			font_size: "50sp"
 			text: "Go Back"
 			on_release: app.root.current = 'main'
