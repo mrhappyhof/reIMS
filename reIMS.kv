@@ -1,8 +1,8 @@
 #:kivy 2.0.0
 WindowManager:
-	LoginScreen:
 	MainScreen:
-	PurchaseScreen:
+	LoginScreen:
+	InventoryScreen:
 
 <LoginScreen>:
 	name: 'login'
@@ -20,8 +20,8 @@ WindowManager:
 			anchor_y: 'top'
 
 			Label:
-				text: 'Please login with your keycard.'
-				font_size: '100dp'
+				text: 'Please login with your keycard'
+				font_size: 0.1 * root.height
 				height: 150
 				size_hint: None, None
 
@@ -29,33 +29,49 @@ WindowManager:
 	name: 'main'
 	BoxLayout:
 		Button:
-			font_size: "100sp"
-			text: "Check-Out"
+			font_size: 0.1 * root.height
+			text: 'CHECK-OUT'
 			on_release: root.check_out_button()
 		Button:
-			font_size: "100sp"
-			text: "Check-In"
+			font_size: 0.1 * root.height
+			text: 'CHECK-IN'
 			on_release: root.check_in_button()
 
 <InventoryScreen>:
 	name: 'inv'
 	GridLayout:
+		rows: 3
 		cols: 2
+		AnchorLayout:
+			Label:
+				text: root.mode_label
+				font_size: 0.05 * root.height
+				height: 150
+				size_hint: None, None
 		Button:
-			font_size: "50sp"
-			text: "RJ-45"
+			font_size: 0.1 * root.height
+			text: 'LC-LC Single'
+		Image:
+			source: 'res/img/barcode-scanner.png'
 		Button:
-			font_size: "50sp"
-			text: "LC-LC Single"
-		Button:
-			font_size: "50sp"
-			text: "Power Cord"
-		Button:
-			font_size: "50sp"
-			text: "LC-LC Multi"
-		Button:
-			disabled: 'true'
-		Button:
-			font_size: "50sp"
-			text: "Go Back"
-			on_release: app.root.current = 'main'
+			font_size: 0.1 * root.height
+			text: 'LC-LC Multi'
+		AnchorLayout:
+			Label:
+				text: 'Please scan the attached barcode in equal quantity of the items you wish to process'
+				font_size: 0.05 * root.height
+				size_hint_y: None
+    			text_size: self.width, None
+    			height: self.texture_size[1]
+		BoxLayout:
+			Button:
+				font_size: 0.05 * root.height
+				text: 'LOGOUT'
+				on_release: root.manager.current = 'login'
+			Button:
+				font_size: 0.05 * root.height
+				text: 'BACK'
+				on_release: root.manager.current = 'main'
+			Button:
+				font_size: 0.05 * root.height
+				text: 'CONFIRM'
