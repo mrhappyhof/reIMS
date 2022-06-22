@@ -8,11 +8,11 @@ Config.set('graphics', 'window_state', 'maximized')
 class MainScreen(Screen):
 	def check_out_button(self):
 		App.get_running_app().mode = 0
-		self.manager.get_screen('inv').mode_label = 'Mode: Check-Out Items'
+		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
 		self.manager.current = 'inv'
 	def check_in_button(self):
 		App.get_running_app().mode = 1
-		self.manager.get_screen('inv').mode_label = 'Mode: Check-In Items'
+		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-IN ITEMS'
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):

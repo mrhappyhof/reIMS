@@ -20,7 +20,7 @@ WindowManager:
 			anchor_y: 'top'
 
 			Label:
-				text: 'Please login with your keycard'
+				text: 'PLEASE LOGIN WITH YOUR KEYCARD'
 				font_size: 0.1 * root.height
 				height: 150
 				size_hint: None, None
@@ -28,6 +28,8 @@ WindowManager:
 <MainScreen>:
 	name: 'main'
 	BoxLayout:
+		spacing: 10
+		padding: 10
 		Button:
 			font_size: 0.1 * root.height
 			text: 'CHECK-OUT'
@@ -40,6 +42,8 @@ WindowManager:
 <InventoryScreen>:
 	name: 'inv'
 	GridLayout:
+		spacing: 10
+		padding: 10
 		rows: 3
 		cols: 2
 		AnchorLayout:
@@ -58,20 +62,34 @@ WindowManager:
 			text: 'LC-LC Multi'
 		AnchorLayout:
 			Label:
-				text: 'Please scan the attached barcode in equal quantity of the items you wish to process'
+				text: 'PLEASE SCAN THE ATTACHED BARCODE IN EQUAL QUANTITY OF THE ITEMS YOU WISH TO PROCESS'
 				font_size: 0.05 * root.height
 				size_hint_y: None
     			text_size: self.width, None
     			height: self.texture_size[1]
 		BoxLayout:
+			spacing: 10
+			padding: 10
 			Button:
 				font_size: 0.05 * root.height
 				text: 'LOGOUT'
-				on_release: root.manager.current = 'login'
+				color: '#000000'
+				background_color: '#FF0000'
+				background_normal: ''
+				background_pressed: ''
+				on_release: root.manager.current = 'login'	
 			Button:
 				font_size: 0.05 * root.height
 				text: 'BACK'
-				on_release: root.manager.current = 'main'
+				color: '#000000'
+				background_color: '#FFFF00'
+				background_normal: ''
+				background_pressed: ''
+				on_release: root.manager.current = 'main' 
 			Button:
 				font_size: 0.05 * root.height
 				text: 'CONFIRM'
+				color: '#000000'
+				background_color: '#00FF00'
+				background_normal: ''
+				background_pressed: ''
