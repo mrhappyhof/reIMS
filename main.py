@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
 from src.util import confirmation_popup
+from usb import listen_to_rfid
 
 Config.set('graphics', 'window_state', 'maximized')
 
@@ -18,7 +19,15 @@ class MainScreen(Screen):
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):
-	pass
+	user = None
+	def login(self):
+		global user
+		while True:
+			user = listen_to_rfid()
+			if user != None: 
+				self.manager.current = 'main'
+				return
+
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
