@@ -7,23 +7,21 @@ WindowManager:
 <LoginScreen>:
 	name: 'login'
 	FloatLayout:
-		AnchorLayout:
-			anchor_x: 'center'
-			anchor_y: 'bottom'
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 10
+			padding: 10
+			Button:
+				id: 'login'
+				font_size: 0.1 * root.height
+				text: 'LOGIN'
+				on_release: root.login()
+			Button:
+				id: 'help'
+				font_size: 0.1 * root.height
+				text: 'HELP'
+				on_release: root.help()
 
-			Image:
-				source: 'res/img/keycard.png'
-				size_hint: .7, .7
-
-		AnchorLayout:
-			anchor_x: 'center'
-			anchor_y: 'top'
-
-			Label:
-				text: 'PLEASE LOG IN WITH YOUR KEYCARD'
-				font_size: 0.07 * root.height
-				height: 150
-				size_hint: None, None
 
 <MainScreen>:
 	name: 'main'
