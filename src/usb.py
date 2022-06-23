@@ -62,6 +62,3 @@ def listen_to_rfid() -> str:
 	dev = get_device(RFID_DEVICE_NAME)
 	id = listen_to_hid_device(dev)
 	return id
-
-	
-
