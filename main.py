@@ -9,16 +9,6 @@ from src.usb import listen_to_rfid
 Config.set('graphics', 'window_state', 'maximized')
 
 class MainScreen(Screen):
-	user = None
-	def login(self):
-		global user
-		user = listen_to_rfid()
-		if user != None: 
-			print(user)
-			App.get_running_app().mode = 0
-			self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
-			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
-			self.manager.current = 'inv'
 	def check_out_button(self):
 		App.get_running_app().mode = 0
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
@@ -29,11 +19,15 @@ class MainScreen(Screen):
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):
-	pass
+	def on_load(self):
+		user = listen_to_rfid()
+		if user != None: 
+			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
+			self.manager.current = 'main'
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
-	login_label = StringProperty('LOGGED IN AS: 417150')
+	login_label = StringProperty()
 
 	def logout(self):
 		def yes(popup, _):
