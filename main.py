@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
 from src.util import confirmation_popup
-from usb import listen_to_rfid
+from src.usb import listen_to_rfid
 
 Config.set('graphics', 'window_state', 'maximized')
 
