@@ -12,7 +12,10 @@ def confirmation_popup(title_text, doit):
 
 	pop = Popup(title=title_text,title_size=0.3 * layout.height,content=layout,size_hint=(.6, .6))
 
+	def no(_):
+		pop.dismiss(force=True)
+
 	btn1.bind(on_press=partial(doit, pop))
-	btn2.bind(on_press=pop.dismiss)
+	btn2.bind(on_press=no)
 
 	pop.open()

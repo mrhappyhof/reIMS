@@ -25,19 +25,19 @@ class InventoryScreen(Screen):
 
 	def logout(self):
 		def yes(popup, _):
-			popup.dismiss()
+			popup.dismiss(force=True)
 			self.manager.current = 'login'
 		confirmation_popup('DO YOU WISH TO LOG OUT? (SCANNED ITEMS WILL BE DISCARDED)', yes)
 
 	def back(self):
 		def yes(popup, _):
-			popup.dismiss()
+			popup.dismiss(force=True)
 			self.manager.current = 'main'
 		confirmation_popup('DO YOU WISH TO GO BACK? (SCANNED ITEMS WILL BE DISCARDED)', yes)
 
 	def confirm(self):
 		def yes(popup, _):
-			popup.dismiss()
+			popup.dismiss(force=True)
 		confirmation_popup('DO YOU WISH TO CONFIRM THE TRANSACTION? (SCANNED ITEMS WILL BE PROCESSED)', yes)
 
 class WindowManager(ScreenManager):
