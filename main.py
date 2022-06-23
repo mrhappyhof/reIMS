@@ -20,7 +20,7 @@ class MainScreen(Screen):
 
 class LoginScreen(Screen):
 	user = None
-	def login(self):
+	def on_enter(self):
 		global user
 		while True:
 			user = listen_to_rfid()
