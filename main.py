@@ -22,12 +22,9 @@ class LoginScreen(Screen):
 	user = None
 	def on_enter(self):
 		global user
-		while True:
-			user = listen_to_rfid()
-			if user != None: 
-				self.manager.current = 'main'
-				return
-
+		user = listen_to_rfid()
+		if user != None: 
+			self.manager.current = 'main'
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
