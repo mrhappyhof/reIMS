@@ -9,6 +9,12 @@ from src.usb import listen_to_rfid
 Config.set('graphics', 'window_state', 'maximized')
 
 class MainScreen(Screen):
+	user = None
+	def login(self):
+		global user
+		user = listen_to_rfid()
+		if user != None: 
+			print(user)
 	def check_out_button(self):
 		App.get_running_app().mode = 0
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
@@ -19,12 +25,7 @@ class MainScreen(Screen):
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):
-	user = None
-	def on_enter(self):
-		global user
-		user = listen_to_rfid()
-		if user != None: 
-			self.manager.current = 'main'
+	pass
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()

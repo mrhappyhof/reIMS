@@ -1,7 +1,7 @@
 #:kivy 2.1.0
 WindowManager:
-	LoginScreen:
 	MainScreen:
+	LoginScreen:
 	InventoryScreen:
 
 <LoginScreen>:
@@ -33,7 +33,7 @@ WindowManager:
 		Button:
 			font_size: 0.1 * root.height
 			text: 'CHECK-OUT'
-			on_release: root.check_out_button()
+			on_release: root.login()
 		Button:
 			font_size: 0.1 * root.height
 			text: 'CHECK-IN'
