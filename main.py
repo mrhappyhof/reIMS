@@ -19,7 +19,7 @@ class MainScreen(Screen):
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):
-	def on_load(self):
+	def on_enter(self):
 		user = listen_to_rfid()
 		if user != None: 
 			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
