@@ -56,7 +56,9 @@ def listen_to_hid_device(dev: InputDevice) -> str:
 				if (data.scancode != 42) and (data.scancode != 28):
 					x += key_lookup  
 				if(data.scancode == 28):
-					return x
+					break
+	dev.close()
+	return x
 
 def listen_to_rfid() -> str:
 	dev = get_device(RFID_DEVICE_NAME)

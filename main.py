@@ -15,6 +15,10 @@ class MainScreen(Screen):
 		user = listen_to_rfid()
 		if user != None: 
 			print(user)
+			App.get_running_app().mode = 0
+			self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
+			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
+			self.manager.current = 'inv'
 	def check_out_button(self):
 		App.get_running_app().mode = 0
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
@@ -29,6 +33,7 @@ class LoginScreen(Screen):
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
+	login_label = StringProperty('LOGGED IN AS: 417150')
 
 	def logout(self):
 		def yes(popup, _):
