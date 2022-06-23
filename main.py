@@ -59,7 +59,7 @@ class WindowManager(ScreenManager):
 	pass
 
 class reIMSApp(App):
-	title = 'reIMS - REHAU Inventory Management System'
+	title = 'reIMS - REHAU Inventory Management System | SUPPORT: Adrian Fernandez Castro, reh 7667, EDU'
 	mode = None
 
 reIMSApp().run()
