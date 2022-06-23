@@ -19,6 +19,12 @@ class MainScreen(Screen):
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-IN ITEMS'
 		self.manager.current = 'inv'
 
+class SplashScreen(Screen):
+	def on_enter(self):
+		Clock.schedule_once(self.load)
+	def load(self, _):
+		self.manager.current = 'login'
+
 class LoginScreen(Screen):
 	def on_enter(self):
 		Clock.schedule_once(self.login)
