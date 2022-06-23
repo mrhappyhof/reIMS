@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
