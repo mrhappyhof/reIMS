@@ -13,22 +13,20 @@ class MainScreen(Screen):
 	def check_out_button(self):
 		App.get_running_app().mode = 0
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
-		user = listen_to_rfid()
-		if user != None: 
-			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
-			self.manager.current = 'inv'
+		self.manager.current = 'inv'
 	def check_in_button(self):
 		App.get_running_app().mode = 1
 		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-IN ITEMS'
 		self.manager.current = 'inv'
 
 class LoginScreen(Screen):
-	def login(self):
-		print('lol')
-		""" user = listen_to_rfid()
+	def on_enter(self):
+		Clock.schedule_once(self.login)
+	def login(self, _):
+		user = listen_to_rfid()
 		if user != None: 
 			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
-			self.manager.current = 'main' """
+			self.manager.current = 'main'
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
