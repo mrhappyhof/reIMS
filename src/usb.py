@@ -1,3 +1,4 @@
+import asyncio
 import evdev
 from evdev import InputDevice, categorize, ecodes  
 
@@ -31,7 +32,7 @@ def get_device(DEVICE_NAME):
         if device.name == DEVICE_NAME:
             return device
 
-def listen_to_hid_device(dev: InputDevice) -> str:
+async def listen_to_hid_device(dev: InputDevice) -> str:
 	# setup vars
 	x = ''
 	caps = False
@@ -40,7 +41,7 @@ def listen_to_hid_device(dev: InputDevice) -> str:
 	dev.grab()
 
 	# loop
-	for event in dev.read_loop():
+	async for event in dev.async_read_loop():
 		if event.type == ecodes.EV_KEY:
 			data = categorize(event)  # Save the event temporarily to introspect it
 			if data.scancode == 42:
@@ -62,5 +63,6 @@ def listen_to_hid_device(dev: InputDevice) -> str:
 
 def listen_to_rfid() -> str:
 	dev = get_device(RFID_DEVICE_NAME)
-	id = listen_to_hid_device(dev)
+	loop = asyncio.get_event_loop()
+	id = loop.run_until_complete(listen_to_hid_device(dev))
 	return id
