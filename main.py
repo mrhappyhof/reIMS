@@ -3,6 +3,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
+from kivy.clock import Clock
 from src.util import confirmation_popup
 from src.usb import listen_to_rfid
 
@@ -20,6 +21,9 @@ class MainScreen(Screen):
 
 class LoginScreen(Screen):
 	def on_enter(self):
+		Clock.schedule_once(self.login)
+
+	def login(self, _):
 		user = listen_to_rfid()
 		if user != None: 
 			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
