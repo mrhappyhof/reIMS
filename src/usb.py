@@ -64,3 +64,9 @@ def listen_to_rfid() -> str:
 	loop = asyncio.get_event_loop()
 	id = loop.run_until_complete(listen_to_rfid_device(dev))
 	return id
+
+def listen_to_scanner() -> str:
+	dev = get_device(getenv('SCANNER_DEVICE_NAME'))
+	loop = asyncio.get_event_loop()
+	id = loop.run_until_complete(listen_to_rfid_device(dev))
+	return id[7:]
