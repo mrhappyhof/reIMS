@@ -1,9 +1,7 @@
 import asyncio
 import evdev
+from os import getenv
 from evdev import InputDevice, categorize, ecodes  
-
-RFID_DEVICE_NAME = 'HID 413d:2107'
-SCANNER_DEVICE_NAME = 'HID 05f9:2203'
 
 scancodes = {
     # Scancode: ASCIICode
@@ -32,7 +30,7 @@ def get_device(DEVICE_NAME):
         if device.name == DEVICE_NAME:
             return device
 
-async def listen_to_hid_device(dev: InputDevice) -> str:
+async def listen_to_rfid_device(dev: InputDevice) -> str:
 	# setup vars
 	x = ''
 	caps = False
@@ -62,7 +60,7 @@ async def listen_to_hid_device(dev: InputDevice) -> str:
 	return x
 
 def listen_to_rfid() -> str:
-	dev = get_device(RFID_DEVICE_NAME)
+	dev = get_device(getenv('RFID_DEVICE_NAME'))
 	loop = asyncio.get_event_loop()
-	id = loop.run_until_complete(listen_to_hid_device(dev))
+	id = loop.run_until_complete(listen_to_rfid_device(dev))
 	return id

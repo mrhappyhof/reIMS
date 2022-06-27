@@ -6,7 +6,9 @@ from kivy.config import Config
 from kivy.clock import Clock
 from src.util import confirmation_popup
 from src.usb import listen_to_rfid
+from dotenv import load_dotenv
 
+load_dotenv()
 Config.set('graphics', 'window_state', 'maximized')
 
 class MainScreen(Screen):
