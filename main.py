@@ -7,6 +7,8 @@ from kivy.clock import Clock
 from src.util import confirmation_popup
 from src.usb import listen_to_rfid
 from dotenv import load_dotenv
+import threading
+import time
 
 load_dotenv()
 Config.set('graphics', 'window_state', 'maximized')
@@ -30,6 +32,7 @@ class SplashScreen(Screen):
 class LoginScreen(Screen):
 	def on_enter(self):
 		Clock.schedule_once(self.login)
+
 	def login(self, _):
 		user = listen_to_rfid()
 		if user != None: 
@@ -58,10 +61,11 @@ class InventoryScreen(Screen):
 		confirmation_popup('DO YOU WISH TO CONFIRM THE TRANSACTION? (SCANNED ITEMS WILL BE PROCESSED)', yes)
 
 class WindowManager(ScreenManager):
-	pass
+	stop = threading.Event()
 
 class reIMSApp(App):
+	def on_stop(self):
+		self.root.stop.set()
 	title = 'reIMS - REHAU Inventory Management System | SUPPORT: Adrian Fernandez Castro, reh 7667, EDU'
 	mode = None
-
 reIMSApp().run()
