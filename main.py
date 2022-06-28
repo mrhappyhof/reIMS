@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
 from kivy.clock import Clock, mainthread
-from src.util import confirmation_popup
+from src.util import confirmation_popup, wait_popup, process_items
 from src.usb import listen_to_rfid, listen_to_scanner
 from collections import Counter
 from dotenv import load_dotenv
@@ -99,7 +99,12 @@ class InventoryScreen(Screen):
 	def confirm(self):
 		def yes(popup, _):
 			popup.dismiss(animation=False)
+			self.stop_thread.set()
+			pop = wait_popup()
+			process_items(self.scans, App.get_running_app().mode)
+			pop.dismiss(animation=False)
 			self.reset_values()
+			self.manager.current = 'login'
 		confirmation_popup('DO YOU WISH TO CONFIRM THE TRANSACTION? (SCANNED ITEMS WILL BE PROCESSED)', yes)
 
 class WindowManager(ScreenManager):
