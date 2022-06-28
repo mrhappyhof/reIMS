@@ -1,4 +1,5 @@
 import psycopg2
+from os import getenv
 
 def create_cords_table(conn):
 	try:
@@ -57,7 +58,7 @@ def connect():
 	conn = None
 	try:
 		print('Connecting to the PostgreSQL database...')
-		conn = psycopg2.connect('dbname=reims user=pi')
+		conn = psycopg2.connect(f'dbname={getenv('DB_NAME')} user={getenv('DB_USER')}')
 
 		return conn
 	except (Exception, psycopg2.DatabaseError) as error:
