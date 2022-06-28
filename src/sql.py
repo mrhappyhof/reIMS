@@ -6,9 +6,14 @@ def create_cords_table(conn):
 		cur = conn.cursor()
 
 		query = f'''CREATE TABLE IF NOT EXISTS cords (
-						item_name VARCHAR (255) PRIMARY KEY,
-						item_code VARCHAR (255) NOT NULL,
-						amount INT NOT NULL
+						item VARCHAR (255) PRIMARY KEY,
+						amount INT NOT NULL,
+						connector VARCHAR (255) NOT NULL,
+						color VARCHAR (255) NOT NULL,
+						type VARCHAR (255) NOT NULL,
+						length INT NOT NULL,
+						class VARCHAR (255) NOT NULL,
+						mode VARCHAR (255)
 					);'''
 
 		cur.execute(query)
@@ -20,7 +25,7 @@ def create_cords_table(conn):
 def valid_code(conn, code: str) -> bool:
 	try:
 		cur = conn.cursor()
-		query = 'SELECT item_code FROM cords;'
+		query = 'SELECT item FROM cords;'
 		cur.execute(query)
 		res = cur.fetchall()
 		cur.close()
@@ -34,7 +39,7 @@ def valid_code(conn, code: str) -> bool:
 def update_amount(conn, item_code: str, amount: int, mode: int):
 	try:
 		cur = conn.cursor()
-		query = f"SELECT amount FROM cords WHERE item_code='{item_code}';"
+		query = f"SELECT amount FROM cords WHERE item='{item_code}';"
 		cur.execute(query)
 		res = cur.fetchone()[0]
 
@@ -58,7 +63,7 @@ def connect():
 	conn = None
 	try:
 		print('Connecting to the PostgreSQL database...')
-		conn = psycopg2.connect(f'dbname={getenv('DB_NAME')} user={getenv('DB_USER')}')
+		conn = psycopg2.connect(f'dbname={getenv("DB_NAME")} user={getenv("DB_USER")}')
 
 		return conn
 	except (Exception, psycopg2.DatabaseError) as error:

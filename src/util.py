@@ -4,6 +4,7 @@ from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from collections import Counter
+import psycopg2
 from src.sql import connect, create_cords_table, valid_code, update_amount
 
 def confirmation_popup(title_text, doit):
@@ -47,3 +48,27 @@ def process_items(scans: list, mode: int):
 
 	conn.close()
 	print('Database connection closed.')
+
+def gen_item_string(scans: list) -> str:
+	items = dict(Counter(scans))
+
+	conn = connect()
+	cur = conn.cursor()
+	
+	ex_items = {}
+
+	for k,v in items.items():
+		if not valid_code(conn,k): continue
+		ex_items[k] = v
+
+	for x in ex_items:
+		query = f"SELECT * FROM cords WHERE item='{x}';"
+		cur.execute(query)
+
+	res = cur.fetchall()
+	cur.close()
+	conn.close()
+	print('Database connection closed.')
+
+	item_string = '\n'.join([f'[{v}x {res[i][2]} {res[i][3]} {res[i][5]} CM {str(res[i][7] or "")}]' for i,v in enumerate(list(ex_items.values()))])
+	return item_string

@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
 from kivy.clock import Clock, mainthread
-from src.util import confirmation_popup, wait_popup, process_items
+from src.util import confirmation_popup, wait_popup, process_items, gen_item_string
 from src.usb import listen_to_rfid, listen_to_scanner
 from collections import Counter
 from dotenv import load_dotenv
@@ -70,7 +70,7 @@ class InventoryScreen(Screen):
 	@mainthread
 	def update_scan_list(self):
 		items = dict(Counter(self.scans))
-		item_string = ' '.join([f'[{v}x {k}]' for k, v in items.items()])
+		item_string = gen_item_string(self.scans)
 		self.manager.get_screen('inv').scan_label = f'SCANNED ITEMS: {len(self.scans)}'
 		self.manager.get_screen('inv').scanned_items = f'SCANNED BARCODES:\n\n{item_string}'
 		
