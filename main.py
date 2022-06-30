@@ -4,8 +4,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.config import Config
 from kivy.clock import Clock, mainthread
-from src.util import confirmation_popup, wait_popup, process_items, gen_item_string
+from src.util import confirmation_popup, process_items, gen_item_string
 from src.usb import listen_to_rfid, listen_to_scanner
+from src.log import log
 from collections import Counter
 from dotenv import load_dotenv
 import threading
@@ -32,20 +33,23 @@ class SplashScreen(Screen):
 		self.manager.current = 'login'
 
 class LoginScreen(Screen):
+	user = None
 	def on_enter(self):
 		Clock.schedule_once(self.login)
 
 	def login(self, _):
-		user = listen_to_rfid()
-		if user != None: 
-			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {user}'
+		self.user = listen_to_rfid()
+		if self.user != None: 
+			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {self.user}'
 			self.manager.current = 'main'
+			log(f'{self.user} logged in')
 
 class InventoryScreen(Screen):
 	mode_label = StringProperty()
 	login_label = StringProperty()
 	scan_label = StringProperty('SCANNED ITEMS: 0')
 	scanned_items = StringProperty('SCANNED BARCODES:')
+	item_string = None
 	scans = []
 	thread = None
 	stop_thread = threading.Event()
@@ -70,9 +74,9 @@ class InventoryScreen(Screen):
 	@mainthread
 	def update_scan_list(self):
 		items = dict(Counter(self.scans))
-		item_string = gen_item_string(self.scans)
+		self.item_string = gen_item_string(self.scans)
 		self.manager.get_screen('inv').scan_label = f'SCANNED ITEMS: {len(self.scans)}'
-		self.manager.get_screen('inv').scanned_items = f'SCANNED BARCODES:\n\n{item_string}'
+		self.manager.get_screen('inv').scanned_items = f'SCANNED BARCODES:\n\n{self.item_string}'
 		
 	def reset_values(self):
 		self.scan_label = 'SCANNED ITEMS: 0'
@@ -86,6 +90,7 @@ class InventoryScreen(Screen):
 			self.stop_thread.set()
 			self.reset_values()
 			self.manager.current = 'login'
+			log(f'{self.manager.get_screen("login").user} logged out')
 		confirmation_popup('DO YOU WISH TO LOG OUT? (SCANNED ITEMS WILL BE DISCARDED)', yes)
 
 	def back(self):
@@ -96,15 +101,19 @@ class InventoryScreen(Screen):
 			self.manager.current = 'main'
 		confirmation_popup('DO YOU WISH TO GO BACK? (SCANNED ITEMS WILL BE DISCARDED)', yes)
 
+	@mainthread
 	def confirm(self):
 		def yes(popup, _):
+			mode = App.get_running_app().mode
 			popup.dismiss(animation=False)
 			self.stop_thread.set()
-			pop = wait_popup()
-			process_items(self.scans, App.get_running_app().mode)
-			pop.dismiss(animation=False)
+			process_items(self.scans, mode)
 			self.reset_values()
 			self.manager.current = 'login'
+
+			if mode == 0: log(f'{self.manager.get_screen("login").user} removed:\n{self.item_string}')
+			elif mode == 1: log(f'{self.manager.get_screen("login").user} added:\n{self.item_string}')
+			log(f'{self.manager.get_screen("login").user} logged out')
 		confirmation_popup('DO YOU WISH TO CONFIRM THE TRANSACTION? (SCANNED ITEMS WILL BE PROCESSED)', yes)
 
 class WindowManager(ScreenManager):

@@ -1,5 +1,6 @@
 import psycopg2
 from os import getenv
+from src.log import log
 
 def create_cords_table(conn):
 	try:
@@ -50,7 +51,7 @@ def update_amount(conn, item_code: str, amount: int, mode: int):
 		elif mode == 1: 
 			res = res+amount
 		
-		query = f"UPDATE cords SET amount={res} WHERE item_code='{item_code}';"
+		query = f"UPDATE cords SET amount={res} WHERE item='{item_code}';"
 		cur.execute(query)
 
 		cur.close()
@@ -62,7 +63,6 @@ def update_amount(conn, item_code: str, amount: int, mode: int):
 def connect():
 	conn = None
 	try:
-		print('Connecting to the PostgreSQL database...')
 		conn = psycopg2.connect(f'dbname={getenv("DB_NAME")} user={getenv("DB_USER")}')
 
 		return conn
