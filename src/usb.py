@@ -30,7 +30,7 @@ def get_device(DEVICE_NAME):
         if device.name == DEVICE_NAME:
             return device
 
-async def listen_to_rfid_device(dev: InputDevice) -> str:
+async def listen_to_usb_device(dev: InputDevice) -> str:
 	# setup vars
 	x = ''
 	caps = False
@@ -62,11 +62,11 @@ async def listen_to_rfid_device(dev: InputDevice) -> str:
 def listen_to_rfid() -> str:
 	dev = get_device(getenv('RFID_DEVICE_NAME'))
 	loop = asyncio.get_event_loop()
-	id = loop.run_until_complete(listen_to_rfid_device(dev))
+	id = loop.run_until_complete(listen_to_usb_device(dev))
 	return id
 
 def listen_to_scanner() -> str:
 	dev = get_device(getenv('SCANNER_DEVICE_NAME'))
 	loop = asyncio.get_event_loop()
-	id = loop.run_until_complete(listen_to_rfid_device(dev))
+	id = loop.run_until_complete(listen_to_usb_device(dev))
 	return id
