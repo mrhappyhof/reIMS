@@ -88,6 +88,4 @@ listen_addresses = '*'
 ```
 sudo /etc/init.d/postgresql restart
 ```
-
-```
 </details>
