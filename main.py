@@ -16,16 +16,6 @@ import time
 load_dotenv()
 Config.set('graphics', 'window_state', 'maximized')
 
-class MainScreen(Screen):
-	def check_out_button(self):
-		App.get_running_app().mode = 0
-		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-OUT ITEMS'
-		self.manager.current = 'inv'
-	def check_in_button(self):
-		App.get_running_app().mode = 1
-		self.manager.get_screen('inv').mode_label = 'MODE: CHECK-IN ITEMS'
-		self.manager.current = 'inv'
-
 class SplashScreen(Screen):
 	def on_enter(self):
 		Clock.schedule_once(self.load)
@@ -40,12 +30,12 @@ class LoginScreen(Screen):
 	def login(self, _):
 		self.user = listen_to_rfid()
 		if self.user != None: 
-			self.manager.get_screen('inv').login_label = f'LOGGED IN AS: {self.user}'
+			self.manager.get_screen('main').login_label = f'LOGGED IN AS: {self.user}'
 			self.manager.current = 'main'
 			log(f'{self.user} logged in')
 
-class InventoryScreen(Screen):
-	mode_label = StringProperty()
+class MainScreen(Screen):
+	mode_label = StringProperty('SCAN MODE: CHECK-OUT')
 	login_label = StringProperty()
 	scan_label = StringProperty('SCANNED ITEMS: 0')
 	scanned_items = StringProperty('SCANNED BARCODES:')
@@ -78,6 +68,18 @@ class InventoryScreen(Screen):
 		self.manager.get_screen('inv').scan_label = f'SCANNED ITEMS: {len(self.scans)}'
 		self.manager.get_screen('inv').scanned_items = f'SCANNED BARCODES:\n\n{self.item_string}'
 		
+	def check_out_button(self):
+		App.get_running_app().mode = 0
+		self.ids.in_btn.disabled = False
+		self.ids.out_btn.disabled = True
+		self.mode_label = 'SCAN MODE: CHECK-OUT'
+		
+	def check_in_button(self):
+		App.get_running_app().mode = 1
+		self.ids.out_btn.disabled = False
+		self.ids.in_btn.disabled = True
+		self.mode_label = 'SCAN MODE: CHECK-IN'
+
 	def reset_values(self):
 		self.scan_label = 'SCANNED ITEMS: 0'
 		self.scanned_items = 'SCANNED BARCODES:'
@@ -92,14 +94,6 @@ class InventoryScreen(Screen):
 			self.manager.current = 'login'
 			log(f'{self.manager.get_screen("login").user} logged out')
 		confirmation_popup('DO YOU WISH TO LOG OUT? (SCANNED ITEMS WILL BE DISCARDED)', yes)
-
-	def back(self):
-		def yes(popup, _):
-			popup.dismiss(animation=False)
-			self.stop_thread.set()
-			self.reset_values()
-			self.manager.current = 'main'
-		confirmation_popup('DO YOU WISH TO GO BACK? (SCANNED ITEMS WILL BE DISCARDED)', yes)
 
 	@mainthread
 	def confirm(self):
@@ -123,5 +117,5 @@ class reIMSApp(App):
 	def on_stop(self):
 		self.root.stop.set()
 	title = 'reIMS - REHAU Inventory Management System | SUPPORT: Adrian Fernandez Castro, reh 7667, EDU'
-	mode = None
+	mode = 0
 reIMSApp().run()

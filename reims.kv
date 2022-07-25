@@ -3,7 +3,6 @@ WindowManager:
 	SplashScreen:
 	LoginScreen:
 	MainScreen:
-	InventoryScreen:
 
 <LoginScreen>:
 	name: 'login'
@@ -28,31 +27,32 @@ WindowManager:
 
 <MainScreen>:
 	name: 'main'
-	BoxLayout:
-		spacing: 10
-		padding: 10
-		Button:
-			font_size: 0.1 * root.height
-			text: 'CHECK-OUT'
-			on_release: root.check_out_button()
-		Button:
-			font_size: 0.1 * root.height
-			text: 'CHECK-IN'
-			on_release: root.check_in_button()
-
-<InventoryScreen>:
-	name: 'inv'
 	GridLayout:
 		spacing: 10
 		padding: 10
 		rows: 3
 		cols: 2
-		AnchorLayout:
-			Label:
-				text: root.mode_label
-				font_size: 0.05 * root.height
-				height: 150
-				size_hint: None, None
+		BoxLayout:
+			orientation: 'vertical'
+			AnchorLayout:
+				anchor_y: 'top'
+				Label:
+					text: root.mode_label
+					font_size: 0.05 * root.height
+					height: 150
+					size_hint: None, None
+			BoxLayout:
+				Button:
+					id: out_btn
+					text: 'CHECK-OUT'
+					font_size: 0.06 * root.height
+					on_release: root.check_out_button()
+					disabled: True
+				Button:
+					id: in_btn
+					text: 'CHECK-IN'
+					font_size: 0.06 * root.height
+					on_release: root.check_in_button()
 		BoxLayout:
 			orientation: 'vertical'
 			AnchorLayout:
@@ -73,6 +73,7 @@ WindowManager:
 			TextInput:
 				multiline: True
 				text: root.scanned_items
+				font_size: 0.03 * root.height
 				readonly: True
 		AnchorLayout:
 			Label:
@@ -85,7 +86,7 @@ WindowManager:
 			spacing: 10
 			padding: 10
 			Button:
-				font_size: 0.05 * root.height
+				font_size: 0.06 * root.height
 				text: 'LOGOUT'
 				color: '#000000'
 				background_color: '#FF0000'
@@ -93,15 +94,7 @@ WindowManager:
 				background_pressed: ''
 				on_release: root.logout()	
 			Button:
-				font_size: 0.05 * root.height
-				text: 'BACK'
-				color: '#000000'
-				background_color: '#FFFF00'
-				background_normal: ''
-				background_pressed: ''
-				on_release: root.back() 
-			Button:
-				font_size: 0.05 * root.height
+				font_size: 0.06 * root.height
 				text: 'CONFIRM'
 				color: '#000000'
 				background_color: '#00FF00'
