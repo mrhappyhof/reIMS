@@ -68,3 +68,26 @@ FROM '/home/pi/reIMS/table.csv' DELIMITER ',' CSV HEADER;
 SELECT * FROM cords;
 ```
 </details>
+
+<details>
+  <summary>Remote DB</summary>
+  
+```
+sudo nano /etc/postgresql/13/main/pg_hba.conf
+```
+```
+host    all             all              0.0.0.0/0                       trust
+host    all             all              ::/0                            trust
+```
+```
+sudo nano /etc/postgresql/13/main/postgresql.conf
+```
+```
+listen_addresses = '*'
+```
+```
+sudo /etc/init.d/postgresql restart
+```
+
+```
+</details>
