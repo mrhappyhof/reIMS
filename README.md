@@ -1,5 +1,6 @@
 # reIMS
 ## REHAU Inventory Management System
+[Admin Panel](https://github.com/castdrian/reIMSAP)
 <details>
   <summary>Install deps</summary>
   
