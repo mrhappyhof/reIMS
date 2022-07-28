@@ -65,15 +65,15 @@ class MainScreen(Screen):
 	def update_scan_list(self):
 		items = dict(Counter(self.scans))
 		self.item_string = gen_item_string(self.scans)
-		self.manager.get_screen('inv').scan_label = f'SCANNED ITEMS: {len(self.scans)}'
-		self.manager.get_screen('inv').scanned_items = f'SCANNED BARCODES:\n\n{self.item_string}'
+		self.manager.get_screen('main').scan_label = f'SCANNED ITEMS: {len(self.scans)}'
+		self.manager.get_screen('main').scanned_items = f'SCANNED BARCODES:\n\n{self.item_string}'
 		
 	def check_out_button(self):
 		App.get_running_app().mode = 0
 		self.ids.in_btn.disabled = False
 		self.ids.out_btn.disabled = True
 		self.mode_label = 'SCAN MODE: CHECK-OUT'
-		
+
 	def check_in_button(self):
 		App.get_running_app().mode = 1
 		self.ids.out_btn.disabled = False

@@ -63,7 +63,7 @@ def update_amount(conn, item_code: str, amount: int, mode: int):
 def connect():
 	conn = None
 	try:
-		conn = psycopg2.connect(f'host={getenv("DB_HOST")} dbname={getenv("DB_NAME")} user={getenv("DB_USER")}')
+		conn = psycopg2.connect(f'dbname={getenv("DB_NAME")} user={getenv("DB_USER")}')
 
 		return conn
 	except (Exception, psycopg2.DatabaseError) as error:
