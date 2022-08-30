@@ -26,13 +26,12 @@ def create_cords_table(conn):
 def valid_code(conn, code: str) -> bool:
 	try:
 		cur = conn.cursor()
-		query = 'SELECT item FROM cords;'
-		cur.execute(query)
-		res = cur.fetchall()
+		query = 'SELECT item FROM cords WHERE item=%s;'
+		cur.execute(query, (code, ))
+		res = cur.fetchOne()
 		cur.close()
-		result = [x[0] for x in res]
-		if code in result: return True
-		else: return False
+		if res == None: return False
+		else: return True
 
 	except (Exception, psycopg2.DatabaseError) as error:
 		print(error)
@@ -40,8 +39,8 @@ def valid_code(conn, code: str) -> bool:
 def update_amount(conn, item_code: str, amount: int, mode: int):
 	try:
 		cur = conn.cursor()
-		query = f"SELECT amount FROM cords WHERE item='{item_code}';"
-		cur.execute(query)
+		query = f"SELECT amount FROM cords WHERE item=%s;"
+		cur.execute(query, (item_code, ))
 		res = cur.fetchone()[0]
 
 		if mode == 0:
@@ -51,8 +50,8 @@ def update_amount(conn, item_code: str, amount: int, mode: int):
 		elif mode == 1: 
 			res = res+amount
 		
-		query = f"UPDATE cords SET amount={res} WHERE item='{item_code}';"
-		cur.execute(query)
+		query = f"UPDATE cords SET amount=%s WHERE item=%s;"
+		cur.execute(query, (res, item_code, ))
 
 		cur.close()
 		conn.commit()
